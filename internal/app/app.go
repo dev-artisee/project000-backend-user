@@ -17,7 +17,7 @@ type App struct {
 }
 
 func NewApp(cfg config.Config) (*App, error) {
-	db, err := datasource.NewDatabase(cfg)
+	db, err := datasource.NewGORMDatabase(cfg)
 	if err != nil {
 		return nil, err
 	}

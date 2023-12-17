@@ -9,8 +9,10 @@ import (
 )
 
 type (
-	ReaderWriter interface {
+	ReadWriter interface {
 		datasource.TxHandler
+		reader
+		writer
 	}
 
 	reader interface {
@@ -19,18 +21,21 @@ type (
 	writer interface {
 	}
 
-	Repository struct {
+	repository struct {
 		db *gorm.DB
 	}
 )
 
-var _ ReaderWriter = (*Repository)(nil)
+var (
+	_ datasource.TxHandler = (*repository)(nil)
+	_ ReadWriter           = (*repository)(nil)
+)
 
-func NewRepository(db *gorm.DB) ReaderWriter {
-	return &Repository{db}
+func NewRepository(db *gorm.DB) ReadWriter {
+	return &repository{db}
 }
 
-func (repo *Repository) Transaction(fc func(txHandler datasource.TxHandler) error, opts ...*sql.TxOptions) error {
+func (repo *repository) Transaction(fc func(txHandler datasource.TxHandler) error, opts ...*sql.TxOptions) error {
 	return repo.db.Transaction(func(tx *gorm.DB) error {
 		txRepo := NewRepository(tx)
 
