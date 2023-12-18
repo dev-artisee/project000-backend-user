@@ -1,12 +1,14 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 
 	"project000-backend-user/config"
+	"project000-backend-user/docs"
 	"project000-backend-user/pkg/datasource"
 )
 
@@ -28,12 +30,16 @@ func NewApp(cfg config.Config) (*App, error) {
 		Config: cfg,
 	}
 
+	docs.SwaggerConfig(app.Gin)
+
 	return app, nil
 }
 
 func (app *App) Run() error {
+	app.StartService()
+
 	server := http.Server{
-		Addr:         "",
+		Addr:         fmt.Sprintf(":%d", app.Config.Server.Port),
 		Handler:      app.Gin,
 		ReadTimeout:  app.Config.Server.ReadTimeout,
 		WriteTimeout: app.Config.Server.WriteTimeout,

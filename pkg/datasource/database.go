@@ -13,7 +13,7 @@ import (
 func NewGORMDatabase(cfg config.Config) (*gorm.DB, error) {
 	dbConfig := cfg.Database
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=%s",
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=%s",
 		dbConfig.Host,
 		dbConfig.User,
 		dbConfig.Password,

@@ -2,6 +2,7 @@ package user
 
 import (
 	userRepo "project000-backend-user/internal/repository/user"
+	"project000-backend-user/pkg/cerror"
 	"project000-backend-user/pkg/datasource"
 )
 
@@ -22,9 +23,9 @@ func NewService(repo userRepo.ReadWriter) UseCase {
 
 func (s *service) Sample() error {
 	err := s.repo.Transaction(func(txHandler datasource.TxHandler) error {
-		userRepo, ok := txHandler.(userRepo.ReadWriter)
+		_, ok := txHandler.(userRepo.ReadWriter)
 		if !ok {
-			return cerror.ErrInternalServer
+			return cerror.NewErrInternalServerError(nil)
 		}
 
 		// TODO: do something with txRepo

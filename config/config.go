@@ -32,7 +32,8 @@ type (
 
 // LoadConfig 'config-[env].yaml' 파일로부터 설정 정보를 읽는다.
 func LoadConfig(env string) (Config, error) {
-	viper.SetConfigName(fmt.Sprintf("config/config-%s", env))
+	viper.AddConfigPath("config")
+	viper.SetConfigName(fmt.Sprintf("config-%s", env))
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {

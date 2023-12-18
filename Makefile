@@ -1,4 +1,4 @@
-.PHONY: help database-up flyway-migration flyway-info
+.PHONY: help database-up flyway-migration flyway-info docs
 
 database-up:
 	docker run --name postgres \
@@ -20,3 +20,6 @@ flyway-info:
 		-v $(shell pwd)/script/database/sql:/flyway/sql \
 		-v $(shell pwd)/script/database/config/flyway-local.conf:/flyway/conf/flyway.conf \
 		flyway/flyway:latest info
+
+docs:
+	swag init -g cmd/user-api/main.go -o docs

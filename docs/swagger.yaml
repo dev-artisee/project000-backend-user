@@ -1,0 +1,38 @@
+info:
+  contact: {}
+paths:
+  /user/oauth:
+    post:
+      consumes:
+      - application/json
+      description: OAuth
+      parameters:
+      - description: oauth authorization code
+        in: body
+        name: PostOauthRequest
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: OAuth
+      tags:
+      - /user
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
